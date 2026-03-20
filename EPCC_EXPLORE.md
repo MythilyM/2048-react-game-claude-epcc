@@ -73,7 +73,7 @@ The entire 2048 game needs to be built from scratch. Key pieces:
 - Test runner: `npm test`
 - Dev server: `npm start`
 - Linter: `npm run build` will surface TypeScript/ESLint errors
-- Rewrite `App.tsx` and `App.css`; add `gameLogic.ts`
+- Rewrite `App.tsx` and `App.css`; add `gameLog1ic.ts`
 
 **For COMMIT**:
 - Existing placeholder test (`renders learn react link`) will break — update it

@@ -12,6 +12,11 @@ test('renders the score box', () => {
   expect(screen.getByText('SCORE')).toBeInTheDocument();
 });
 
+test('renders the best score box', () => {
+  render(<App />);
+  expect(screen.getByText('BEST')).toBeInTheDocument();
+});
+
 test('renders new game button', () => {
   render(<App />);
   expect(screen.getByText('New Game')).toBeInTheDocument();

@@ -4,15 +4,43 @@
 
 body {
   background: #faf8ef;
-  font-family: 'Arial', sans-serif;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
 }
+
+/* ── Animations ── */
+
+@keyframes pop-in {
+  0%   { transform: scale(0); opacity: 0; }
+  60%  { transform: scale(1.12); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes merge-burst {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+@keyframes record-flash {
+  0%   { background: #bbada0; }
+  30%  { background: #f6c253; }
+  60%  { background: #f59d45; }
+  100% { background: #bbada0; }
+}
+
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Layout ── */
 
 .app {
   display: flex;
   flex-direction: row;
   gap: 24px;
   padding: 24px;
-  max-width: 740px;
+  max-width: 760px;
   margin: 0 auto;
   align-items: flex-start;
 }
@@ -32,38 +60,45 @@ body {
 }
 
 .game-title {
-  font-size: 3rem;
-  font-weight: bold;
+  font-size: 3.2rem;
+  font-weight: 800;
   color: #776e65;
   margin: 0;
+  letter-spacing: -1px;
 }
 
 .game-controls {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .score-box {
   background: #bbada0;
-  border-radius: 6px;
-  padding: 8px 16px;
+  border-radius: 8px;
+  padding: 8px 14px;
   text-align: center;
-  min-width: 80px;
+  min-width: 76px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+}
+
+.score-box--record {
+  animation: record-flash 0.6s ease-out;
 }
 
 .score-label {
   display: block;
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   color: #eee4da;
-  font-weight: bold;
-  letter-spacing: 0.05em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .score-value {
   display: block;
   font-size: 1.2rem;
-  font-weight: bold;
+  font-weight: 800;
   color: #fff;
 }
 
@@ -71,15 +106,22 @@ body {
   background: #8f7a66;
   color: #fff;
   border: none;
-  border-radius: 6px;
-  padding: 10px 18px;
-  font-size: 0.9rem;
-  font-weight: bold;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 0.85rem;
+  font-weight: 700;
   cursor: pointer;
+  letter-spacing: 0.03em;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+  transition: background 0.15s, transform 0.1s;
 }
 
 .new-game-btn:hover {
   background: #6d5e50;
+}
+
+.new-game-btn:active {
+  transform: scale(0.97);
 }
 
 /* ── Board ── */
@@ -89,22 +131,31 @@ body {
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
   background: #bbada0;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 12px;
   width: 100%;
   aspect-ratio: 1;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  touch-action: none;
 }
 
 .tile {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 1.6rem;
-  font-weight: bold;
-  background: #cdc1b4;
+  font-weight: 800;
+  background: rgba(238, 228, 218, 0.35);
   color: #776e65;
-  transition: background 0.1s;
+}
+
+.tile--spawn {
+  animation: pop-in 0.18s ease-out both;
+}
+
+.tile--merge {
+  animation: merge-burst 0.2s ease-out both;
 }
 
 .tile-2    { background: #eee4da; color: #776e65; }
@@ -113,17 +164,18 @@ body {
 .tile-16   { background: #f59563; color: #f9f6f2; }
 .tile-32   { background: #f67c5f; color: #f9f6f2; }
 .tile-64   { background: #f65e3b; color: #f9f6f2; }
-.tile-128  { background: #edcf72; color: #f9f6f2; font-size: 1.3rem; }
-.tile-256  { background: #edcc61; color: #f9f6f2; font-size: 1.3rem; }
-.tile-512  { background: #edc850; color: #f9f6f2; font-size: 1.3rem; }
-.tile-1024 { background: #edc53f; color: #f9f6f2; font-size: 1rem; }
-.tile-2048 { background: #edc22e; color: #f9f6f2; font-size: 1rem; }
+.tile-128  { background: #edcf72; color: #f9f6f2; font-size: 1.3rem; box-shadow: 0 0 24px rgba(237,207,114,0.5); }
+.tile-256  { background: #edcc61; color: #f9f6f2; font-size: 1.3rem; box-shadow: 0 0 24px rgba(237,204,97,0.5); }
+.tile-512  { background: #edc850; color: #f9f6f2; font-size: 1.3rem; box-shadow: 0 0 28px rgba(237,200,80,0.6); }
+.tile-1024 { background: #edc53f; color: #f9f6f2; font-size: 1rem;   box-shadow: 0 0 32px rgba(237,197,63,0.7); }
+.tile-2048 { background: #edc22e; color: #f9f6f2; font-size: 1rem;   box-shadow: 0 0 40px rgba(237,194,46,0.8); }
 
 .instructions {
   text-align: center;
   color: #bbb;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   margin-top: 10px;
+  letter-spacing: 0.02em;
 }
 
 /* ── Overlay ── */
@@ -131,11 +183,12 @@ body {
 .overlay {
   position: absolute;
   inset: 0;
-  background: rgba(250, 248, 239, 0.75);
+  background: rgba(250, 248, 239, 0.78);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  border-radius: 12px;
+  animation: overlay-in 0.25s ease-out;
 }
 
 .overlay-content {
@@ -144,7 +197,7 @@ body {
 
 .overlay-message {
   font-size: 1.6rem;
-  font-weight: bold;
+  font-weight: 800;
   color: #776e65;
   margin-bottom: 16px;
 }
@@ -154,7 +207,8 @@ body {
 @media (max-width: 560px) {
   .app {
     flex-direction: column;
-    padding: 16px;
+    padding: 12px;
+    gap: 16px;
   }
 
   .score-history {
@@ -164,4 +218,11 @@ body {
   .tile {
     font-size: 1.1rem;
   }
+
+  .tile-128,
+  .tile-256,
+  .tile-512 { font-size: 1rem; }
+
+  .tile-1024,
+  .tile-2048 { font-size: 0.85rem; }
 }
