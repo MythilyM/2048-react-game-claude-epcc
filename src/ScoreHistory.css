@@ -1,10 +1,31 @@
+:root {
+  --bg-sidebar:             #faf8ef;
+  --bg-score-entry:         #ede0d4;
+  --sidebar-title-color:    #776e65;
+  --entry-score-color:      #776e65;
+  --entry-stat-color:       #9b8e85;
+  --entry-stat-strong-color:#776e65;
+  --entry-date-color:       #bbb;
+}
+
+[data-theme="dark"] {
+  --bg-sidebar:             #1e1e30;
+  --bg-score-entry:         #252538;
+  --sidebar-title-color:    #c8c0b8;
+  --entry-score-color:      #e0d8d0;
+  --entry-stat-color:       #8080a0;
+  --entry-stat-strong-color:#c0b8b0;
+  --entry-date-color:       #555;
+}
+
 .score-history {
   width: 220px;
   min-width: 180px;
-  background: #faf8ef;
+  background: var(--bg-sidebar);
   border-radius: 10px;
   padding: 16px;
   box-sizing: border-box;
+  transition: background 0.2s;
 }
 
 .score-history-header {
@@ -17,14 +38,14 @@
 .score-history-header h2 {
   margin: 0;
   font-size: 0.9rem;
-  color: #776e65;
+  color: var(--sidebar-title-color);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-weight: 700;
 }
 
 .clear-btn {
-  background: #8f7a66;
+  background: var(--bg-btn, #8f7a66);
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -36,11 +57,11 @@
 }
 
 .clear-btn:hover {
-  background: #6d5e50;
+  background: var(--bg-btn-hover, #6d5e50);
 }
 
 .score-history-empty {
-  color: #bbb;
+  color: var(--color-muted, #bbb);
   font-size: 0.82rem;
   text-align: center;
   margin-top: 24px;
@@ -60,10 +81,11 @@
 .score-entry {
   display: flex;
   flex-direction: column;
-  background: #ede0d4;
+  background: var(--bg-score-entry);
   border-radius: 8px;
   padding: 8px 10px;
   gap: 3px;
+  transition: background 0.2s;
 }
 
 .entry-top {
@@ -75,7 +97,7 @@
 .entry-score {
   font-size: 1.05rem;
   font-weight: 800;
-  color: #776e65;
+  color: var(--entry-score-color);
 }
 
 .entry-result {
@@ -99,14 +121,14 @@
 
 .entry-stat {
   font-size: 0.72rem;
-  color: #9b8e85;
+  color: var(--entry-stat-color);
 }
 
 .entry-stat strong {
-  color: #776e65;
+  color: var(--entry-stat-strong-color);
 }
 
 .entry-date {
   font-size: 0.7rem;
-  color: #bbb;
+  color: var(--entry-date-color);
 }

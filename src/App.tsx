@@ -34,6 +34,10 @@ function computeAnimKeys(
 }
 
 function App() {
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+    try { return (localStorage.getItem("theme") as "light" | "dark") || "light"; }
+    catch { return "light"; }
+  });
   const [board, setBoard] = useState<Board>(initBoard);
   const [score, setScore] = useState(0);
   const [scoreAnimKey, setScoreAnimKey] = useState(0);
@@ -53,6 +57,11 @@ function App() {
   } = useScoreHistory();
   const gameEndedRef = useRef(false);
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    try { localStorage.setItem("theme", theme); } catch {}
+  }, [theme]);
 
   const startNewGame = useCallback(() => {
     setBoard(initBoard());
@@ -173,6 +182,13 @@ function App() {
             </div>
             <button className="new-game-btn" onClick={startNewGame}>
               New Game
+            </button>
+            <button
+              className="theme-toggle-btn"
+              onClick={() => setTheme((t) => (t === "light" ? "dark" : "light"))}
+              aria-label="Toggle dark mode"
+            >
+              {theme === "light" ? "🌙" : "☀️"}
             </button>
           </div>
         </div>
