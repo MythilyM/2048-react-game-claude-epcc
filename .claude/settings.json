@@ -18,5 +18,36 @@
     ],
     "deny": [],
     "ask": []
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read|Grep",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/protect-env.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/auto-format.sh",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/typecheck.sh",
+            "timeout": 60
+          }
+        ]
+      }
+    ]
   }
 }
