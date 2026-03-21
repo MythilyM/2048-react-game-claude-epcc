@@ -36,6 +36,7 @@ function computeAnimKeys(
 function App() {
   const [board, setBoard] = useState<Board>(initBoard);
   const [score, setScore] = useState(0);
+  const [scoreAnimKey, setScoreAnimKey] = useState(0);
   const [status, setStatus] = useState<GameStatus>("playing");
   const [moveCount, setMoveCount] = useState(0);
   const [animKeys, setAnimKeys] = useState<{
@@ -82,6 +83,7 @@ function App() {
         setMoveCount((m) => m + 1);
         setScore((s) => {
           const newScore = s + gained;
+          if (gained > 0) setScoreAnimKey((k) => k + 1);
           if (!gameEndedRef.current) {
             const highest = Math.max(...withTile.flat());
             if (hasWon(withTile)) {
@@ -167,7 +169,7 @@ function App() {
             </div>
             <div className="score-box">
               <span className="score-label">SCORE</span>
-              <span className="score-value">{score.toLocaleString()}</span>
+              <span key={scoreAnimKey} className="score-value score-value--bump">{score.toLocaleString()}</span>
             </div>
             <button className="new-game-btn" onClick={startNewGame}>
               New Game
